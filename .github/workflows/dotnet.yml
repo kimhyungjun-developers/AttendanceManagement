@@ -10,7 +10,7 @@ on:
   
 defaults:
   run:
-    working-directory: ./src/backend/UnitTest
+    working-directory: ./src/backend/WebAPI
 
 jobs:
   build:
