@@ -6,7 +6,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS build
-WORKDIR /src
+WORKDIR /src/backend
 COPY ["WebAPI/WebAPI.csproj", "WebAPI/"]
 RUN dotnet restore "WebAPI/WebAPI.csproj"
 COPY . .
