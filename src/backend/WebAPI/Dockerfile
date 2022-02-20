@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /app
 COPY . .
+RUN dotnet restore "WebAPI.csproj"
 RUN dotnet build "WebAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
