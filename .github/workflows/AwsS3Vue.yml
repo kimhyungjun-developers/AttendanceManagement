@@ -1,0 +1,33 @@
+name: Build vue S3
+
+on:
+  push:
+    branches: [ master ]  #master브런치에 push가 이뤄질때 작동
+  pull_request:
+    branches: 
+      - '**'
+  workflow_dispatch:
+  
+defaults:
+  run:
+    working-directory: ./ #작업 디렉토르 설정
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Install Dependencies       # npm 설치
+        run: npm install
+
+      - name: Build                      # vue 프로젝트 빌드 파일 생성
+        run: npm run build
+      
+      - name: Deploy                     # vue 프로젝트 빌드 파일을 Aws S3에 등록 
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --recursive --region AwsRegion(Aws등록리전) vue프로젝트빌드폴더 AwsS3ARN명
