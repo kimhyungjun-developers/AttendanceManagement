@@ -5,13 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /src
-COPY backend/WebAPI/*.csproj ./WebAPI/
-COPY backend/Model/*.csproj ./Model/
-COPY backend/Service/*.csproj ./Service/
-COPY backend/UnitTest/*.csproj ./UnitTest/
-RUN dotnet restore "backend/WebAPI/WebAPI.csproj"
+COPY ["WebAPI.csproj", "."]
+RUN dotnet restore "./WebAPI.csproj"
 COPY . .
-WORKDIR "/src/backend/WebAPI"
+WORKDIR "/src/."
 RUN dotnet build "WebAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
