@@ -10,7 +10,7 @@ on:
   
 defaults:
   run:
-    working-directory: ./src/backend/WebAPI
+    working-directory: ./src/backend
 
 jobs:
   ecr-push:
