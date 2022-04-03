@@ -1,6 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS base
 WORKDIR /app
-EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /src
