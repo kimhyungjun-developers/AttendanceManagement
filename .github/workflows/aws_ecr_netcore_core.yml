@@ -1,4 +1,4 @@
-name: ECR Push
+name: ECR(NETCORE+VUE) Push
 
 on:
   push:
