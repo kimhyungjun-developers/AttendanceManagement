@@ -20,7 +20,7 @@ FROM node:lts-alpine as nodebase
 WORKDIR /attendancemanagement
 
 FROM node:lts-alpine as nodebuild
-WORKDIR "/src/."
+WORKDIR "/src/"
 COPY ["frontend/package*.json", "."]
 RUN npm install 
 COPY . . 
