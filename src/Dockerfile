@@ -1,28 +1,34 @@
 #Publish Backend(.net core)
-# Build Backend
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS dotnetbuild
-WORKDIR /src/backend/
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS base
+WORKDIR /attendancemanagement
+EXPOSE 80
+EXPOSE 443
 
-COPY *.sln .
-COPY WebAPI/*.csproj ./WebAPI
-RUN dotnet restore -r linux-x64
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /src/
+COPY ["backend/WebAPI/WebAPI.csproj", "."]
+RUN dotnet restore "./WebAPI.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "backend/WebAPI/WebAPI.csproj" -c Release -o /attendancemanagement/build
 
-COPY WebAPI/. ./WebAPI/
-
-WORKDIR /src/backend/WebAPI
-RUN dotnet publish -c Release -o /attendancemanagement --no-restore -r linux-x64 --self-contained false
+FROM build AS dotnetpublish
+RUN dotnet publish "backend/WebAPI/WebAPI.csproj" -c Release -o /attendancemanagement/publish
 
 # Build Frontend(Vue)
+FROM node:lts-alpine as nodebase
+WORKDIR /attendancemanagement
+
 FROM node:lts-alpine as nodebuild
-WORKDIR /src/frontend/
-COPY package*.json ./
-RUN npm install
+WORKDIR "/src/."
+COPY ["frontend/package*.json", "."]
+RUN npm install 
 COPY . . 
-RUN npm run build -- --prod
+RUN npm run serve
 
 # Image File
 FROM base AS final
 WORKDIR /attendancemanagement
-COPY --from=dotnetpublish /attendancemanagement ./
-COPY --from=nodebuild /frontend/dist ./attendancemanagement/wwwroot 
+COPY --from=dotnetpublish /attendancemanagement/publish .
+COPY --from=nodebuild /frontend/dist ./attendancemanagement/publish/wwwroot 
 ENTRYPOINT ["dotnet", "WebAPI.dll"]
