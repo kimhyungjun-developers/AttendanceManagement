@@ -5,7 +5,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
-WORKDIR /src
+WORKDIR /src/
 COPY ["backend/WebAPI/WebAPI.csproj", "."]
 RUN dotnet restore "./WebAPI.csproj"
 COPY . .
@@ -20,7 +20,7 @@ FROM node:lts-alpine as nodebase
 WORKDIR /attendancemanagement
 
 FROM node:lts-alpine as nodebuild
-WORKDIR /src
+WORKDIR /src/
 COPY ["frontend/package*.json", "."]
 RUN npm install 
 COPY . . 
