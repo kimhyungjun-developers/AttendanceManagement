@@ -1,7 +1,7 @@
 version: '3'
 services:
   attendancemanagement-backend-api:
-    image: attendance-management-api
+    image: 565346696680.dkr.ecr.ap-northeast-1.amazonaws.com/attendancemanagement:latest
     restart: unless-stopped
     build:
       context: .
@@ -10,7 +10,7 @@ services:
       - "8080:80"
 
   attendancemanagement-frontend-vue:
-    image: attendancemanagement-frontend-vue
+    image: 565346696680.dkr.ecr.ap-northeast-1.amazonaws.com/attendancemanagement:latest
     restart: unless-stopped
     build:
       context: .
