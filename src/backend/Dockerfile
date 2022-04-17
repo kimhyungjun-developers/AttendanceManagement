@@ -1,11 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
-WORKDIR /src/backend
+WORKDIR /src
 
 COPY backend/*.sln .
-COPY backend/WebAPI/*.csproj ./backend/WebAPI/
-COPY backend/Model/*.csproj ./backend/Model/
-COPY backend/Service/*.csproj ./backend/Service/
-COPY backend/UnitTest/*.csproj ./backend/UnitTest/
+COPY backend/WebAPI/*.csproj ./WebAPI/
+COPY backend/Model/*.csproj ./Model/
+COPY backend/Service/*.csproj ./Service/
+COPY backend/UnitTest/*.csproj ./UnitTest/
 RUN dotnet restore
 
 COPY backend/WebAPI/. ./backend/WebAPI/
