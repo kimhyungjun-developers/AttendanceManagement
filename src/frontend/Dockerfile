@@ -1,5 +1,8 @@
 FROM node:lts-alpine as build-stage
 
+ARG VUE_APP_API_URL
+ENV VUE_APP_API_URL ${VUE_APP_API_URL}
+
 WORKDIR /app
 COPY ./frontend/package*.json .
 RUN npm install
