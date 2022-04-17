@@ -1,20 +1,15 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /src
-COPY ["WebAPI/WebAPI.csproj", "WebAPI/"]
-RUN dotnet restore "WebAPI/WebAPI.csproj"
-COPY . .
-WORKDIR "/src/WebAPI"
-RUN dotnet build -c "WebAPI.csproj"　Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish -c "WebAPI.csproj" Release -o /app/publish
+COPY backend/*.sln .
+COPY backend/WebAPI/*.csproj ./backend/WebAPI/
+RUN dotnet restore
+
+COPY backend/WebAPI/. ./backend/WebAPI/
+WORKDIR /source/backend/WebAPI/
+RUN dotnet publish -c release -o /app --no-restore
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "WebAPI.dll"]
