@@ -11,10 +11,11 @@ COPY backend/Service/*.csproj ./Service/
 COPY backend/UnitTest/*.csproj ./UnitTest/
 RUN dotnet restore
 COPY . .
-RUN dotnet build -c　 WebAPI/WebAPI.csproj Release -o /app/build
+WORKDIR /src/
+RUN dotnet build -c　 backend/WebAPI/WebAPI.csproj Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish -c WebAPI/WebAPI.csproj Release -o /app/publish
+RUN dotnet publish -c backend/WebAPI/WebAPI.csproj Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
