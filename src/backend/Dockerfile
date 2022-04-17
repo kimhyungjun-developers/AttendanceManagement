@@ -10,7 +10,7 @@ COPY backend/Model/*.csproj ./Model/
 COPY backend/Service/*.csproj ./Service/
 COPY backend/UnitTest/*.csproj ./UnitTest/
 RUN dotnet restore
-COPY . .
+COPY backend/WebAPI ./
 RUN dotnet build "WebAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
