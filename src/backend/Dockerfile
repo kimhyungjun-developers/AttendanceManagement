@@ -16,6 +16,7 @@ WORKDIR "/src/backend/WebAPI"
 RUN dotnet build -c "WebAPI.csproj"　Release -o /app/build
 
 FROM build AS publish
+WORKDIR "/src/backend/WebAPI"
 RUN dotnet publish -c "WebAPI.csproj" Release -o /app/publish
 
 FROM base AS final
