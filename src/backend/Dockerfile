@@ -10,10 +10,10 @@ COPY backend/Model/*.csproj ./Model/
 COPY backend/Service/*.csproj ./Service/
 COPY backend/UnitTest/*.csproj ./UnitTest/
 RUN dotnet restore
-RUN dotnet build -c　Release -o out
+RUN dotnet build -c　Release -o publish
 
 FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish -c Release -o publish
 
 FROM base AS final
 WORKDIR /app
