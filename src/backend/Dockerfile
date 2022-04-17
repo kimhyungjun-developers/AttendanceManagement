@@ -6,6 +6,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 COPY backend/*.sln ./
 COPY backend/WebAPI/*.csproj ./WebAPI/
+COPY backend/Model/*.csproj ./Model/
+COPY backend/Service/*.csproj ./Service/
+COPY backend/UnitTest/*.csproj ./UnitTest/
 RUN dotnet restore
 COPY . .
 WORKDIR "./WebAPI/"
