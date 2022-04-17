@@ -9,7 +9,7 @@ COPY backend/UnitTest/*.csproj ./UnitTest/
 RUN dotnet restore
 
 COPY backend/WebAPI/. ./backend/WebAPI/
-WORKDIR /source/backend/WebAPI/
+WORKDIR /src/backend/WebAPI/
 RUN dotnet publish -c release -o /app --no-restore
 
 FROM base AS final
